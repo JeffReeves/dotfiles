@@ -1,5 +1,5 @@
 # BUILT INS
-alias ll='ls -al --color=auto'
+alias ll='ls -alh --color=auto'
 
 # GIT
 alias gitlog="git log --graph --all --decorate" 
