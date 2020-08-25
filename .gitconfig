@@ -1,0 +1,12 @@
+[user]
+	name = Jeff Reeves
+	email = jeff@binary.run
+	username = JeffReeves
+[core]
+	editor = vim
+	whitespace = fix,-indent-with-non-tab,trailing-space,cr-at-eol
+	excludesfile = ~/.gitignore
+[color]
+	ui = auto
+[alias]
+	l = log --graph --decorate --all

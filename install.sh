@@ -55,3 +55,6 @@ echo "${COMMAND} git config --global user.email \"${GIT_EMAIL}\""
 git config --global user.name "${GIT_NAME}"
 git config --global user.email "${GIT_EMAIL}"
 echo "${SUCCESS} Set username and email for git"
+
+# move dotfiles to home directory
+cp "${HOME}/dotfiles/.gitconfig" "${HOME}/.gitconfig" 
