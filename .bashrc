@@ -1,4 +1,6 @@
+# exports
 export TERM='screen-256color'
+export EDITOR='vim'
 
 # import common scripts
 COMMON_IMPORT_FILE="${HOME}/dotfiles/common/_main.sh"
