@@ -56,5 +56,7 @@ git config --global user.name "${GIT_NAME}"
 git config --global user.email "${GIT_EMAIL}"
 echo "${SUCCESS} Set username and email for git"
 
-# move dotfiles to home directory
-cp "${HOME}/dotfiles/.gitconfig" "${HOME}/.gitconfig" 
+# create links to dotfiles in home directory
+ln -s "${HOME}/dotfiles/.gitconfig" "${HOME}/.gitconfig"
+ln -s "${HOME}/dotfiles/.tmux.conf" "${HOME}/.tmux.conf"
+ln -s "${HOME}/dotfiles/.vimrc"     "${HOME}/.vimrc"
