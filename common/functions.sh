@@ -30,7 +30,7 @@ function script_get_filename(){
     # set default
     local SCRIPT_NAME=$(basename "${BASH_SOURCE[0]}")
 
-    # if an argument is passed, use it for the basename
+    # if an argument is passed, use it
     if [ ! -z ${1} ]; then
         SCRIPT_NAME=$(basename "${1}")
     fi
@@ -40,7 +40,15 @@ function script_get_filename(){
 
 
 function script_get_directory(){
+
+    # set default
     local SCRIPTS_DIRECTORY=$(cd $(dirname "${BASH_SOURCE[0]}") > /dev/null 2>&1 && pwd)
+
+    # if an argument is passed, use it
+    if [ ! -z ${1} ]; then
+        SCRIPTS_DIRECTORY=$(cd $(dirname "${1}") > /dev/null 2>&1 && pwd)
+    fi
+
     echo "${SCRIPTS_DIRECTORY}"
 }
 
