@@ -23,8 +23,27 @@
 #    }
 #fi
 
+#== FUNCTIONS =================================================================
 
 function prompt_any_key_to_continue(){
+# prompts the user to press any key to continue
+# args:
+# - items: strings
+# return:
+# - 0: success
+
+    read -n1 -s -r -p "${PROMPT} Press any key to continue"
+    READ_EXIT_CODE=$?
+    if [ "${READ_EXIT_CODE}" -ne 0 ]; then 
+        printf "\n%-16s %s\n" "${ERROR}" "User did not wish to continue, or another error occurred"
+        return ${READ_EXIT_CODE}
+    fi
+
+    printf "\n%-16s %s\n" "${SUCCESS}" "User is continuing"
+    return 0
+}
+
+function prompt_confirm_values(){
 # prompts the user to confirm items before continuing
 # args:
 # - items: strings
@@ -49,15 +68,7 @@ function prompt_any_key_to_continue(){
         printf "%-16s %s\n" "$(color info '[ITEM]')" "${ITEM}"
     done
 
-    read -n1 -s -r -p "Press any key to continue"
-    READ_EXIT_CODE=$?
-    if [ "${READ_EXIT_CODE}" -ne 0 ]; then 
-        printf "%-16s %s\n" "${ERROR}" "User did not wish to continue, or another error occurred"
-        return ${READ_EXIT_CODE}
-    fi
-
-    printf "%-16s %s\n" "${SUCCESS}" "User is continuing"
-    return 0
+    prompt_any_key_to_continue
 }
 
 function confirm_current_user(){
@@ -276,3 +287,14 @@ function check_command_available(){
         return 0
     fi
 }
+
+
+#== EXPORTS ===================================================================
+
+export -f prompt_any_key_to_continue
+export -f prompt_confirm_values
+export -f confirm_current_user
+export -f confirm_current_hostname
+export -f check_file_exists
+export -f check_set_value
+export -f check_command_available
