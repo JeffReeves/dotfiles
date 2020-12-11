@@ -17,5 +17,5 @@
     "workbench.iconTheme": "vscode-icons",
     "editor.rulers": [
         80, 100, 120
-    ],
+    ]
 }
