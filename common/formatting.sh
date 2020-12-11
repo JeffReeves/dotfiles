@@ -107,12 +107,12 @@ function bold(){
 
 #= MACRO VARIABLES ============================================================
 
-DEBUG=$(color 'hidden' '[DEBUG]')
-INFO=$(color 'info' '[INFO]')
-TASK=$(color 'task' '[TASK]')
-COMMAND=$(color 'prompt' '[COMMAND]')
-PROMPT=$(color 'prompt' '[PROMPT]')
-HELP=$(color 'help' '[HELP]')
-SUCCESS=$(color 'success' '[SUCCESS]')
-WARNING=$(color 'warning' '[WARNING]')
-ERROR=$(color 'error' '[ERROR]')
+export DEBUG=$(color 'hidden' '[DEBUG]')
+export INFO=$(color 'info' '[INFO]')
+export TASK=$(color 'task' '[TASK]')
+export COMMAND=$(color 'prompt' '[COMMAND]')
+export PROMPT=$(color 'prompt' '[PROMPT]')
+export HELP=$(color 'help' '[HELP]')
+export SUCCESS=$(color 'success' '[SUCCESS]')
+export WARNING=$(color 'warning' '[WARNING]')
+export ERROR=$(color 'error' '[ERROR]')
