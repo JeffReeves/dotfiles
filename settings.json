@@ -1,0 +1,16 @@
+{
+    "editor.fontSize": 18,
+    "editor.fontFamily": "'RobotoMono NF', Consolas, 'Courier New', monospace",
+    "terminal.integrated.shell.windows": "C:\\Program Files\\Git\\bin\\bash.exe",
+    "remote.SSH.remotePlatform": {
+        "bridges": "linux",
+        "binary.run": "linux",
+        "snake": "linux"
+    },
+    "editor.minimap.enabled": false,
+    "git.autofetch": false,
+    "workbench.colorTheme": "SynthWave '84",
+    "synthwave84.brightness": "1.00",
+    "window.zoomLevel": 0,
+    "explorer.confirmDelete": false
+}
