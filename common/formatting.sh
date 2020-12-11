@@ -11,7 +11,7 @@
 # note: can be used in echo, printf, echo, etc.
 
 
-#= FUNCTIONS ==================================================================
+#== FUNCTIONS =================================================================
 
 function color(){ 
 # colors text
@@ -105,14 +105,30 @@ function bold(){
 }
 
 
-#= MACRO VARIABLES ============================================================
+#== MACRO VARIABLES ===========================================================
 
-export DEBUG=$(color 'hidden' '[DEBUG]')
-export INFO=$(color 'info' '[INFO]')
-export TASK=$(color 'task' '[TASK]')
-export COMMAND=$(color 'prompt' '[COMMAND]')
-export PROMPT=$(color 'prompt' '[PROMPT]')
-export HELP=$(color 'help' '[HELP]')
-export SUCCESS=$(color 'success' '[SUCCESS]')
-export WARNING=$(color 'warning' '[WARNING]')
-export ERROR=$(color 'error' '[ERROR]')
+DEBUG=$(color 'hidden' '[DEBUG]')
+INFO=$(color 'info' '[INFO]')
+TASK=$(color 'task' '[TASK]')
+COMMAND=$(color 'prompt' '[COMMAND]')
+PROMPT=$(color 'prompt' '[PROMPT]')
+HELP=$(color 'help' '[HELP]')
+SUCCESS=$(color 'success' '[SUCCESS]')
+WARNING=$(color 'warning' '[WARNING]')
+ERROR=$(color 'error' '[ERROR]')
+
+
+#== EXPORTS ===================================================================
+
+export -f color
+export -f bold
+
+export DEBUG
+export INFO
+export TASK
+export COMMAND
+export PROMPT
+export HELP
+export SUCCESS
+export WARNING
+export ERROR
