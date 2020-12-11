@@ -8,9 +8,14 @@
         "snake": "linux"
     },
     "editor.minimap.enabled": false,
-    "git.autofetch": false,
+    "git.autofetch": true,
     "workbench.colorTheme": "SynthWave '84",
-    "synthwave84.brightness": "1.00",
+    "synthwave84.brightness": 1,
     "window.zoomLevel": 0,
-    "explorer.confirmDelete": false
+    "explorer.confirmDelete": false,
+    "workbench.preferredDarkColorTheme": "SynthWave '84",
+    "workbench.iconTheme": "vscode-icons",
+    "editor.rulers": [
+        80, 100, 120
+    ],
 }
