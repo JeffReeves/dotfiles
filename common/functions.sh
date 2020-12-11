@@ -25,6 +25,18 @@
 
 #== FUNCTIONS =================================================================
 
+function script_get_name(){
+    local SCRIPT_NAME=$(basename "${BASH_SOURCE[0]}")
+    echo "${SCRIPT_NAME}"
+}
+
+
+function script_get_directory(){
+    local SCRIPTS_DIRECTORY=$(cd $(dirname "${BASH_SOURCE[0]}") > /dev/null 2>&1 && pwd)
+    echo "${SCRIPTS_DIRECTORY}"
+}
+
+
 function prompt_any_key_to_continue(){
 # prompts the user to press any key to continue
 # args:
@@ -291,6 +303,8 @@ function check_command_available(){
 
 #== EXPORTS ===================================================================
 
+export -f script_get_name
+export -f script_get_directory
 export -f prompt_any_key_to_continue
 export -f prompt_confirm_values
 export -f confirm_current_user
