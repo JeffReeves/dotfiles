@@ -25,8 +25,16 @@
 
 #== FUNCTIONS =================================================================
 
-function script_get_name(){
+function script_get_filename(){
+
+    # set default
     local SCRIPT_NAME=$(basename "${BASH_SOURCE[0]}")
+
+    # if an argument is passed, use it for the basename
+    if [ ! -z ${1} ]; then
+        SCRIPT_NAME=$(basename "${1}")
+    fi
+
     echo "${SCRIPT_NAME}"
 }
 
@@ -303,7 +311,7 @@ function check_command_available(){
 
 #== EXPORTS ===================================================================
 
-export -f script_get_name
+export -f script_get_filename
 export -f script_get_directory
 export -f prompt_any_key_to_continue
 export -f prompt_confirm_values
