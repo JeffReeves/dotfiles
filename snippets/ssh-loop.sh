@@ -98,7 +98,6 @@ DOTFILES_DIRECTORY=$(find -O3 "${HOME}" -user ${USER} -type d -name 'dotfiles')
 SCRIPT_DIRECTORY="${DOTFILES_DIRECTORY}/scripts"
 
 SNIPPET_FILENAME=$(script_get_filename "${0}")
-REMOTE_SCRIPT="${1}"
 
 # debugging 
 echo "${DEBUG} SCRIPT_FILENAME: ${SCRIPT_FILENAME}"
