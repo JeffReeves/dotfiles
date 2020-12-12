@@ -15,7 +15,7 @@ function help_output(){
 SCRIPT_FILENAME=$(script_get_filename "${0}")
 
 # verify user supplied parameters
-if [ -z "$@" ]; then
+if [ $# -eq 0 ]; then 
     echo "${ERROR} No parameters were passed to ${SCRIPT_FILENAME}"
     help_output
 fi
