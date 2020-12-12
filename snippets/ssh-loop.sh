@@ -64,12 +64,13 @@ for PARAMETER in "$@"; do
 done
 
 # confirm settings passed as parameters
-PADDING=$(padding_get_length "INVENTORY_FILE" "HOSTS" "REMOTE_SCRIPT" "LOG_FILE")
-printf "%-20s %s\n" "${PROMPT}" "Confirm the following:"
-printf "%-${PADDING}s %s\n" "[INVENTORY_FILE]" "${INVENTORY_FILE}"
-printf "%-${PADDING}s %s\n" "[HOSTS]"          "${HOSTS}"
-printf "%-${PADDING}s %s\n" "[REMOTE_SCRIPT]"  "${REMOTE_SCRIPT}"
-printf "%-${PADDING}s %s\n" "[LOG_FILE]"       "${LOG_FILE}"
+# PADDING=$(padding_get_length "INVENTORY_FILE" "HOSTS" "REMOTE_SCRIPT" "LOG_FILE")
+# printf "%-20s %s\n" "${PROMPT}" "Confirm the following:"
+# printf "%-${PADDING}s %s\n" "[INVENTORY_FILE]" "${INVENTORY_FILE}"
+# printf "%-${PADDING}s %s\n" "[HOSTS]"          "${HOSTS}"
+# printf "%-${PADDING}s %s\n" "[REMOTE_SCRIPT]"  "${REMOTE_SCRIPT}"
+# printf "%-${PADDING}s %s\n" "[LOG_FILE]"       "${LOG_FILE}"
+pprintf "INVENTORY_FILE" "HOSTS" "REMOTE_SCRIPT" "LOG_FILE"
 prompt_yes_to_continue
 
 if [ -s "${INVENTORY_FILE}" ]; then 
