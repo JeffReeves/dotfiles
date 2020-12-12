@@ -3,15 +3,16 @@
 # Purpose: Runs a script on a list of remote servers via ssh 
 #   and logs output to a log file.
 
-MAIN_SCRIPT=$(basename "${BASH_SOURCE[0]}")
-SCRIPTS_DIRECTORY=$(cd $(dirname "${BASH_SOURCE[0]}") > /dev/null 2>&1 && pwd)
+SCRIPT_FILENAME=$(script_get_filename "${0}")
+SCRIPT_DIRECTORY=$(script_get_directory "${0}")
+REMOTE_SCRIPT="${SCRIPT_DIRECTORY}/remote/${SCRIPT_FILENAME}"
 
 # debugging 
-echo "${DEBUG} MAIN_SCRIPT: ${MAIN_SCRIPT}"
-echo "${DEBUG} SCRIPTS_DIRECTORY: ${SCRIPTS_DIRECTORY}"
+echo "${DEBUG} SCRIPT_FILENAME: ${SCRIPT_FILENAME}"
+echo "${DEBUG} SCRIPT_DIRECTORY: ${SCRIPT_DIRECTORY}"
 echo ''
 
-SCRIPT="${SCRIPTS_DIRECTORY}/${MAIN_SCRIPT}"
+SCRIPT="${SCRIPT_DIRECTORY}/${SCRIPT_FILENAME}"
 echo "${DEBUG} SCRIPT: ${SCRIPT}"
 # LOGFILE='script.log'
 # SERVERLIST=(hostname1 hostname2)
