@@ -140,7 +140,7 @@ function prompt_confirm_values(){
 
     printf "%-20s %s\n" "${PROMPT}" "Confirm the following:"
     
-    show_key_values "$@"
+    echo "$@"
 
     prompt_yes_to_continue
 }
