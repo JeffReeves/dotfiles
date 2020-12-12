@@ -25,7 +25,7 @@
 
 #== FUNCTIONS =================================================================
 
-function show_key_values(){
+function padding_get_length(){
     
     # if no arguments are passed, return 100
     if [ $# -eq 0 ]; then 
@@ -33,22 +33,19 @@ function show_key_values(){
     fi
 
     # defaults
-    local KEY=''
-    local VALUE=''
-    local PADDING=0
+    local TOTAL_PADDING=0
 
     for PARAMETER in "$@"; do
-        if [ -z "${KEY}" ]; then 
-            KEY="${1}"
-            WORD_LENGTH=$(echo "${KEY}" | wc -c)
-            PADDING=$((WORD_LENGTH+2))
-            printf "[${KEY}]\n"
-        else 
-            VALUE="${1}"
-            printf "%-${PADDING}s %s\n" "" "${VALUE}"
+        local WORD_LENGTH=$(echo "${1}" | wc -c)
+        local PADDING=$((WORD_LENGTH+2))
+
+        if [ ${PADDING} -gt ${TOTAL_PADDING} ]; then
+            TOTAL_PADDING=${PADDING}
         fi
         shift
     done
+
+    echo "${TOTAL_PADDING}"
 }
 
 function script_get_filename(){
@@ -366,7 +363,7 @@ function check_command_available(){
 
 #== EXPORTS ===================================================================
 
-export -f show_key_values
+export -f padding_get_length
 export -f script_get_filename
 export -f script_get_directory
 export -f prompt_any_key_to_continue
