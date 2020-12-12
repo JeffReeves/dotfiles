@@ -133,7 +133,7 @@ function prompt_confirm_values(){
         fi
     done
 
-    prompt_any_key_to_continue
+    prompt_yes_to_continue
 }
 
 function confirm_current_user(){
