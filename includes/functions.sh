@@ -102,8 +102,16 @@ function prompt_confirm_values(){
     fi
 
     printf "%-16s %s\n" "${PROMPT}" "Confirm the following:"
+
     for ITEM in ${ITEMS}; do 
-        printf "%-16s %s\n" "$(color info '[ITEM]')" "${ITEM}"
+        # if item has a 'key=value' assignment
+        if [[ "${ITEM}" =~ .*'='.* ]]; then
+            local KEY="${PARAMETER%=*}"
+            local VALUE="${PARAMETER#*=}"
+            printf "%-16s %s\n" "$(color info \'[${KEY}]\')" "${VALUE}"
+        else 
+            printf "%-16s %s\n" "$(color info '[ITEM]')" "${ITEM}"
+        fi
     done
 
     prompt_any_key_to_continue
