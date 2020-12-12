@@ -127,9 +127,9 @@ function prompt_confirm_values(){
         if [[ "${ITEM}" =~ .*'='.* ]]; then
             local KEY="${ITEM%=*}"
             local VALUE="${ITEM#*=}"
-            printf "%-20s %s\n" "$(color info \'[${KEY}]\')" "${VALUE}"
+            printf "%-20s %s\n" "$(color info [${KEY}])" "${VALUE}"
         else 
-            printf "%-20s %s\n" "$(color info '[ITEM]')" "${ITEM}"
+            printf "%-20s %s\n" "$(color info [VALUE])" "${ITEM}"
         fi
     done
 
