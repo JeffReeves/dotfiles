@@ -123,26 +123,6 @@ function prompt_yes_to_continue(){
 }
 
 
-function prompt_confirm_values(){
-# prompts the user to confirm items before continuing
-# args:
-# - items: strings
-# return:
-# - 0: success
-
-    # if no arguments are passed, return 100
-    if [ $# -eq 0 ]; then 
-        return 100
-    fi
-
-    printf "%-20s %s\n" "${PROMPT}" "Confirm the following:"
-    
-    echo "$@"
-
-    prompt_yes_to_continue
-}
-
-
 function confirm_current_user(){
 # confirms current shell user
 # args: 
@@ -368,7 +348,6 @@ export -f script_get_filename
 export -f script_get_directory
 export -f prompt_any_key_to_continue
 export -f prompt_yes_to_continue
-export -f prompt_confirm_values
 export -f confirm_current_user
 export -f confirm_current_hostname
 export -f check_file_exists
