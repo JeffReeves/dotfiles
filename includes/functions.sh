@@ -73,11 +73,11 @@ function prompt_any_key_to_continue(){
     read -n1 -s -r -p "${PROMPT} Press any key to continue"
     READ_EXIT_CODE=$?
     if [ "${READ_EXIT_CODE}" -ne 0 ]; then 
-        printf "\n%-16s %s\n" "${ERROR}" "User did not wish to continue, or another error occurred"
+        printf "\n%-20s %s\n" "${ERROR}" "User did not wish to continue, or another error occurred"
         return ${READ_EXIT_CODE}
     fi
 
-    printf "\n%-16s %s\n" "${SUCCESS}" "User is continuing"
+    printf "\n%-20s %s\n" "${SUCCESS}" "User is continuing"
     return 0
 }
 
@@ -101,16 +101,16 @@ function prompt_confirm_values(){
         ITEMS="$@"
     fi
 
-    printf "%-16s %s\n" "${PROMPT}" "Confirm the following:"
+    printf "%-20s %s\n" "${PROMPT}" "Confirm the following:"
 
     for ITEM in ${ITEMS}; do 
         # if item has a 'key=value' assignment
         if [[ "${ITEM}" =~ .*'='.* ]]; then
             local KEY="${PARAMETER%=*}"
             local VALUE="${PARAMETER#*=}"
-            printf "%-16s %s\n" "$(color info \'[${KEY}]\')" "${VALUE}"
+            printf "%-20s %s\n" "$(color info \'[${KEY}]\')" "${VALUE}"
         else 
-            printf "%-16s %s\n" "$(color info '[ITEM]')" "${ITEM}"
+            printf "%-20s %s\n" "$(color info '[ITEM]')" "${ITEM}"
         fi
     done
 
@@ -136,13 +136,13 @@ function confirm_current_user(){
     local CURRENT_USER="$(whoami)"
 
     # main 
-    printf "%-16s %s\n" "${TASK}" "Verifying current user is ${DESIRED_USER} ..."
-    printf "%-16s %s\n" "$(color info '[CURRENT USER]')" "${CURRENT_USER}"
+    printf "%-20s %s\n" "${TASK}" "Verifying current user is ${DESIRED_USER} ..."
+    printf "%-20s %s\n" "$(color info '[CURRENT USER]')" "${CURRENT_USER}"
     if [ "${CURRENT_USER}" != "${DESIRED_USER}" ]; then
-        printf "%-16s %s\n" "${ERROR}" "NOT logged in as the desired user."
+        printf "%-20s %s\n" "${ERROR}" "NOT logged in as the desired user."
         return 1
     else
-        printf "%-16s %s\n" "${SUCCESS}" "Logged in as the desired user."
+        printf "%-20s %s\n" "${SUCCESS}" "Logged in as the desired user."
         return 0
     fi
 }
@@ -167,13 +167,13 @@ function confirm_current_hostname(){
     local CURRENT_HOSTNAME="$(uname -n)"
 
     # main 
-    printf "%-16s %s\n" "${TASK}" "Verifying current hostname contains or matches ${DESIRED_HOSTNAME} ..."
-    printf "%-16s %s\n" "$(color info '[CURRENT HOSTNAME]')" "${CURRENT_HOSTNAME}"
+    printf "%-20s %s\n" "${TASK}" "Verifying current hostname contains or matches ${DESIRED_HOSTNAME} ..."
+    printf "%-20s %s\n" "$(color info '[CURRENT HOSTNAME]')" "${CURRENT_HOSTNAME}"
     if [[ ! "${CURRENT_HOSTNAME}" =~ "${DESIRED_HOSTNAME}" ]]; then
-        printf "%-16s %s\n" "${ERROR}" "NOT logged into the desired host."
+        printf "%-20s %s\n" "${ERROR}" "NOT logged into the desired host."
         return 1
     else
-        printf "%-16s %s\n" "${SUCCESS}" "Logged into the desired host."
+        printf "%-20s %s\n" "${SUCCESS}" "Logged into the desired host."
         return 0
     fi
 }
@@ -195,12 +195,12 @@ function check_file_exists(){
     local FILE="${1}"
 
     # main 
-    printf "%-16s %s\n" "${TASK}" "Verifying ${FILE} exists ..."
+    printf "%-20s %s\n" "${TASK}" "Verifying ${FILE} exists ..."
     if [ ! -f "${FILE}" ]; then
-        printf "%-16s %s\n" "${ERROR}" "${FILE} does NOT exist"
+        printf "%-20s %s\n" "${ERROR}" "${FILE} does NOT exist"
         return 1
     else
-        printf "%-16s %s\n" "${SUCCESS}" "${FILE} exist"
+        printf "%-20s %s\n" "${SUCCESS}" "${FILE} exist"
         return 0
     fi
 }
@@ -242,25 +242,25 @@ function check_set_value(){
     local CURRENT_VALUES=$(eval "${GREP}")
 
     # main 
-    printf "%-16s %s\n" "${TASK}" "Verifying ${FILE} has ${KEY} set to ${DESIRED VALUE} ..."
-    printf "%-16s %s\n" "${COMMAND}" "${GREP}"
+    printf "%-20s %s\n" "${TASK}" "Verifying ${FILE} has ${KEY} set to ${DESIRED VALUE} ..."
+    printf "%-20s %s\n" "${COMMAND}" "${GREP}"
 
     # verify there is at least one current value found
     if [ -z "${CURRENT_VALUES}" ]; then 
-        printf "%-16s %s\n" "${ERROR}" "No current value found"
+        printf "%-20s %s\n" "${ERROR}" "No current value found"
         return 200
     fi
 
     # iterate over all current values found
     while IFS='' read -r CURRENT_VALUE || [[ -n "${CURRENT_VALUE}" ]]; do 
 
-        printf "%-16s %s\n" "$(color info '[CURRENT VALUE]')" "${CURRENT_VALUE}"
+        printf "%-20s %s\n" "$(color info '[CURRENT VALUE]')" "${CURRENT_VALUE}"
 
         # skip lines starting with a comment
         local REGEX_COMMENT='^[ \t]*(#)' # extensible for other comment characters
         local BEGINS_WITH_COMMENT=$(echo "${CURRENT_VALUE}" | grep -E "${REGEX_COMMENT}")
         if [ "${BEGINS_WITH_COMMENT}" ]; then 
-            printf "%-16s %s\n" "${INFO}" "Current value is a comment line. Skipping..."
+            printf "%-20s %s\n" "${INFO}" "Current value is a comment line. Skipping..."
             continue
         fi
 
@@ -269,16 +269,16 @@ function check_set_value(){
 
         # if current value does not match desired value
         if [ "${CURRENT_VALUE}" != "${DESIRED_VALUE}" ]; then
-            printf "%-16s %s\n" "$(color info '[DESIRED VALUE]')" "${DESIRED_VALUE}"
-            printf "%-16s %s\n" "${WARNING}" "Current value does not match desired value"
-            printf "%-16s %s\n" "${TASK}" "Setting desired value ..."
-            printf "%-16s %s\n" "${COMMAND}" "${SED_REPLACE}"
+            printf "%-20s %s\n" "$(color info '[DESIRED VALUE]')" "${DESIRED_VALUE}"
+            printf "%-20s %s\n" "${WARNING}" "Current value does not match desired value"
+            printf "%-20s %s\n" "${TASK}" "Setting desired value ..."
+            printf "%-20s %s\n" "${COMMAND}" "${SED_REPLACE}"
             eval "${SED_REPLACE}"
             local EXIT_CODE=$?
 
             # confirm sed replacement worked
             if [ "${EXIT_CODE}" -ne 0 ]; then 
-                printf "%-16s %s\n" "${ERROR}" "Exit Code: ${EXIT_CODE}"
+                printf "%-20s %s\n" "${ERROR}" "Exit Code: ${EXIT_CODE}"
                 return ${EXIT_CODE}
             fi
 
@@ -286,7 +286,7 @@ function check_set_value(){
             if [ "${SECOND_RUN}" == 'False' ]; then
                 check_set_value 'recursive' "$@"
             else 
-                printf "%-16s %s\n" "${ERROR}" "Current value was NOT updated"
+                printf "%-20s %s\n" "${ERROR}" "Current value was NOT updated"
                 return 1
             fi
 
@@ -294,9 +294,9 @@ function check_set_value(){
         elif [ "${CURRENT_VALUE}" == "${DESIRED_VALUE}" ]; then
 
             if [ "${SECOND_RUN}" == 'False' ]; then
-                printf "%-16s %s\n" "${SUCCESS}" "${KEY} already set to ${DESIRED_VALUE}"
+                printf "%-20s %s\n" "${SUCCESS}" "${KEY} already set to ${DESIRED_VALUE}"
             else
-                printf "%-16s %s\n" "${SUCCESS}" "${KEY} set to ${DESIRED_VALUE}"
+                printf "%-20s %s\n" "${SUCCESS}" "${KEY} set to ${DESIRED_VALUE}"
             fi
         fi
     done <<< "${CURRENT_VALUES}"
@@ -319,17 +319,17 @@ function check_command_available(){
     local COMMAND="${1}"
 
     # main 
-    printf "%-16s %s\n" "${TASK}" "Verifying ${COMMAND} is available ..."
+    printf "%-20s %s\n" "${TASK}" "Verifying ${COMMAND} is available ..."
 
     # command
     local WHICH_EXIT_CODE=$(which "${COMMAND}" > /dev/null 2>&1; echo $?)
 
     # check if which finds a command
     if [ "${WHICH_EXIT_CODE}" -ne 0 ]; then
-        printf "%-16s %s\n" "${ERROR}" "${COMMAND} command NOT available"
+        printf "%-20s %s\n" "${ERROR}" "${COMMAND} command NOT available"
         return 1
     else
-        printf "%-16s %s\n" "${SUCCESS}" "${COMMAND} available"
+        printf "%-20s %s\n" "${SUCCESS}" "${COMMAND} available"
         return 0
     fi
 }
