@@ -25,6 +25,29 @@
 
 #== FUNCTIONS =================================================================
 
+function show_key_values(){
+    
+    # if no arguments are passed, return 100
+    if [ $# -eq 0 ]; then 
+        return 100
+    fi
+
+    # defaults
+    local KEY=''
+    local VALUE=''
+
+    for PARAMETER in "$@"; do
+        if [ -z "${KEY}" ]; then 
+            KEY="${1}"
+            echo "[${KEY}]"
+        else 
+            VALUE="${1}"
+            echo "${VALUE}"
+        fi
+        shift
+    done
+}
+
 function script_get_filename(){
 
     # default to null value
@@ -112,29 +135,13 @@ function prompt_confirm_values(){
         return 100
     fi
 
-    # parameters
-    local ITEMS=''
-
-    # get all items from passed parameters
-    if [[ ! -z "${1}" ]]; then
-        ITEMS="$@"
-    fi
-
     printf "%-20s %s\n" "${PROMPT}" "Confirm the following:"
-
-    for ITEM in ${ITEMS}; do 
-        # if item has a 'key=value' assignment
-        if [[ "${ITEM}" =~ .*'='.* ]]; then
-            local KEY="${ITEM%=*}"
-            local VALUE="${ITEM#*=}"
-            printf "%-20s %s\n" "$(color info [${KEY}])" "${VALUE}"
-        else 
-            printf "%-20s %s\n" "$(color info [VALUE])" "${ITEM}"
-        fi
-    done
+    
+    show_key_values "$@"
 
     prompt_yes_to_continue
 }
+
 
 function confirm_current_user(){
 # confirms current shell user
@@ -356,6 +363,7 @@ function check_command_available(){
 
 #== EXPORTS ===================================================================
 
+export -f show_key_values
 export -f script_get_filename
 export -f script_get_directory
 export -f prompt_any_key_to_continue
