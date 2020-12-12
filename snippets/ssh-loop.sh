@@ -3,6 +3,21 @@
 # Purpose: Runs a script on a list of remote servers via ssh 
 #   and logs output to a log file.
 
+function help_output(){
+    echo "${HELP} Acceptable parameters are:"
+    echo "-i=* | --inventory=*  # inventory file of hosts"
+    echo "-h=* | --hosts=*      # hosts to run script on"
+    echo "-s=* | --script=*     # script to run on remote hosts"
+    echo "-l=* | --log=*        # log file to save output to"
+    exit 250
+}
+
+# verify user supplied parameters
+if [ -z "$@" ]; then
+    echo "${ERROR} No parameters were passed to ${0}"
+    help_output
+fi
+
 # parse user parameters
 for PARAMETER in "$@"; do 
     case ${PARAMETER} in 
@@ -41,12 +56,7 @@ for PARAMETER in "$@"; do
         
         *)
             echo "${ERROR} Parameters passed to ${0} are not valid"
-            echo "${HELP} Acceptable parameters are:"
-            echo "-i=* | --inventory=*  # inventory file of hosts"
-            echo "-h=* | --hosts=*      # hosts to run script on"
-            echo "-s=* | --script=*     # script to run on remote hosts"
-            echo "-l=* | --log=*        # log file to save output to"
-            exit 250
+            help_output
             ;;
     esac
 done
