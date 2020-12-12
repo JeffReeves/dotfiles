@@ -35,14 +35,17 @@ function show_key_values(){
     # defaults
     local KEY=''
     local VALUE=''
+    local PADDING=0
 
     for PARAMETER in "$@"; do
         if [ -z "${KEY}" ]; then 
             KEY="${1}"
-            echo "[${KEY}]"
+            WORD_LENGTH=$(echo "${KEY}" | wc -c)
+            PADDING=$((WORD_LENGTH+2))
+            printf "[${KEY}]\n"
         else 
             VALUE="${1}"
-            echo "${VALUE}"
+            printf "%-${PADDING}s %s\n" "" "${VALUE}"
         fi
         shift
     done
