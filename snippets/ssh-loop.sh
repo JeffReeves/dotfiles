@@ -12,9 +12,11 @@ function help_output(){
     exit 250
 }
 
+SCRIPT_FILENAME=$(script_get_filename "${0}")
+
 # verify user supplied parameters
 if [ -z "$@" ]; then
-    echo "${ERROR} No parameters were passed to ${0}"
+    echo "${ERROR} No parameters were passed to ${SCRIPT_FILENAME}"
     help_output
 fi
 
@@ -55,7 +57,7 @@ for PARAMETER in "$@"; do
             ;;
         
         *)
-            echo "${ERROR} Parameters passed to ${0} are not valid"
+            echo "${ERROR} Parameters passed to ${SCRIPT_FILENAME} are not valid"
             help_output
             ;;
     esac
