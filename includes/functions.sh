@@ -27,8 +27,13 @@
 
 function script_get_filename(){
 
-    # set default
-    local SCRIPT_NAME=$(basename "${BASH_SOURCE[0]}")
+    # default to null value
+    local SCRIPT_NAME=''
+
+    # if source is available, use it
+    if [ ! -z "${BASH_SOURCE[0]}" ]; then
+        SCRIPT_NAME=$(basename "${BASH_SOURCE[0]}")
+    fi
 
     # if an argument is passed, use it
     if [ ! -z ${1} ]; then
@@ -42,7 +47,12 @@ function script_get_filename(){
 function script_get_directory(){
 
     # set default
-    local SCRIPTS_DIRECTORY=$(cd $(dirname "${BASH_SOURCE[0]}") > /dev/null 2>&1 && pwd)
+    local SCRIPTS_DIRECTORY=''
+
+    # if source is available, use it
+    if [ ! -z "${BASH_SOURCE[0]}" ]; then
+        SCRIPTS_DIRECTORY=$(cd $(dirname "${BASH_SOURCE[0]}") > /dev/null 2>&1 && pwd)
+    fi
 
     # if an argument is passed, use it
     if [ ! -z ${1} ]; then

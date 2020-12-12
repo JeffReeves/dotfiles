@@ -5,15 +5,17 @@
 
 SCRIPT_FILENAME=$(script_get_filename "${0}")
 SCRIPT_DIRECTORY=$(script_get_directory "${0}")
-REMOTE_SCRIPT="${SCRIPT_DIRECTORY}/remote/${SCRIPT_FILENAME}"
+REMOTE_SCRIPT="${1}"
 
 # debugging 
 echo "${DEBUG} SCRIPT_FILENAME: ${SCRIPT_FILENAME}"
 echo "${DEBUG} SCRIPT_DIRECTORY: ${SCRIPT_DIRECTORY}"
+echo "${DEBUG} REMOTE_SCRIPT: ${REMOTE_SCRIPT}"
 echo ''
 
 SCRIPT="${SCRIPT_DIRECTORY}/${SCRIPT_FILENAME}"
 echo "${DEBUG} SCRIPT: ${SCRIPT}"
+
 # LOGFILE='script.log'
 # SERVERLIST=(hostname1 hostname2)
 
