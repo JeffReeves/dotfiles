@@ -72,6 +72,6 @@ echo "${SUCCESS} Set username and email for git"
 
 
 # create links to dotfiles in home directory
-ln -s "${CONFIGS}/.gitconfig" "${HOME}/.gitconfig"
-ln -s "${CONFIGS}/.tmux.conf" "${HOME}/.tmux.conf"
-ln -s "${CONFIGS}/.vimrc"     "${HOME}/.vimrc"
+ln -fs "${CONFIGS}/.gitconfig" "${HOME}/.gitconfig"
+ln -fs "${CONFIGS}/.tmux.conf" "${HOME}/.tmux.conf"
+ln -fs "${CONFIGS}/.vimrc"     "${HOME}/.vimrc"
