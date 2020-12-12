@@ -81,6 +81,25 @@ function prompt_any_key_to_continue(){
     return 0
 }
 
+
+function prompt_yes_to_continue(){
+# prompts the user to press Y/y to continue
+# args:
+# - items: strings
+# return:
+# - 0: success
+
+    read -n1 -s -r -p "${PROMPT} Press Y/y to continue" CONTINUE
+    if [[ ! "${CONTINUE}" =~ ^[Yy] ]]; then 
+        printf "\n%-20s %s\n" "${ERROR}" "User did not wish to continue, or another error occurred"
+        return 100
+    fi
+
+    printf "\n%-20s %s\n" "${SUCCESS}" "User is continuing"
+    return 0
+}
+
+
 function prompt_confirm_values(){
 # prompts the user to confirm items before continuing
 # args:
@@ -340,6 +359,7 @@ function check_command_available(){
 export -f script_get_filename
 export -f script_get_directory
 export -f prompt_any_key_to_continue
+export -f prompt_yes_to_continue
 export -f prompt_confirm_values
 export -f confirm_current_user
 export -f confirm_current_hostname
