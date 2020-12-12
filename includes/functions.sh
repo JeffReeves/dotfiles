@@ -125,8 +125,8 @@ function prompt_confirm_values(){
     for ITEM in ${ITEMS}; do 
         # if item has a 'key=value' assignment
         if [[ "${ITEM}" =~ .*'='.* ]]; then
-            local KEY="${PARAMETER%=*}"
-            local VALUE="${PARAMETER#*=}"
+            local KEY="${ITEM%=*}"
+            local VALUE="${ITEM#*=}"
             printf "%-20s %s\n" "$(color info \'[${KEY}]\')" "${VALUE}"
         else 
             printf "%-20s %s\n" "$(color info '[ITEM]')" "${ITEM}"
