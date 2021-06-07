@@ -81,5 +81,9 @@ echo -e "${COMMAND-[COMMAND]} ln -fs \"${CONFIGS}/.tmux.conf\" \"${HOME}/.tmux.c
 ln -fs "${CONFIGS}/.tmux.conf" "${HOME}/.tmux.conf"
 echo -e "${COMMAND-[COMMAND]} ln -fs \"${CONFIGS}/.vimrc\"     \"${HOME}/.vimrc\"" 
 ln -fs "${CONFIGS}/.vimrc"     "${HOME}/.vimrc"
+echo -e "${COMMAND-[COMMAND]} mkdir -p \"${HOME}/.config/Code/User\"" 
+mkdir -p "${HOME}/.config/Code/User"
+echo -e "${COMMAND-[COMMAND]} ln -fs \"${CONFIGS}/settings.json\" \"${HOME}/.config/Code/User/settings.json\"" 
+ln -fs "${CONFIGS}/settings.json" "${HOME}/.config/Code/User/settings.json"
 echo -e "${SUCCESS-[SUCCESS]} Created dotfile symlinks"
 echo ''
