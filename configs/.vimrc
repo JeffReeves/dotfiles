@@ -43,8 +43,8 @@ call plug#begin("~/.vim/plugged") " using plugged for vim plugins
     " color schemes
     Plug 'sainnhe/edge'
     Plug 'morhetz/gruvbox'
-    Plug 'artanikin/vim-synthwave84'
-    "Plug 'brandenbyers/vim-synthwave84'
+    "Plug 'artanikin/vim-synthwave84'
+    Plug 'JeffReeves/vim-synthwave84'
 call plug#end()                   " end plugged
 
 " The configuration options should be placed before `colorscheme edge`.
