@@ -35,6 +35,7 @@ DATETIME_NOW=$(date "+%Y %b %d @ %H:%M:%S" | tr '[a-z]' '[A-Z]')
 SOURCE_FILES="# inserted by dotfiles on ${DATETIME_NOW}
 if [ -f \"${DOTFILE_BASHRC}\" ]; then
     source \"${DOTFILE_BASHRC}\"
+    export DOTFILES_DIRECTORY=\"${DOTFILES_DIRECTORY}\"
 fi
 "
 
