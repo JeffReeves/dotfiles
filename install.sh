@@ -61,15 +61,18 @@ fi
 echo ''
 
 
-# configure git user and email
+# configure git username, email, and author name
 GIT_NAME='JeffReeves'
 GIT_EMAIL='jeff@binary.run'
-echo -e "${TASK-[TASK]} Set global git config username and email ..."
-echo -e "${COMMAND-[COMMAND]} git config --global user.name  \"${GIT_NAME}\"" 
-echo -e "${COMMAND-[COMMAND]} git config --global user.email \"${GIT_EMAIL}\"" 
-git config --global user.name  "${GIT_NAME}"
-git config --global user.email "${GIT_EMAIL}"
-echo -e "${SUCCESS-[SUCCESS]} Set username and email for git"
+GIT_AUTHOR='Jeff Reeves'
+echo -e "${TASK-[TASK]} Set global git config username, email, and author name ..."
+echo -e "${COMMAND-[COMMAND]} git config --global user.name    \"${GIT_NAME}\""  
+echo -e "${COMMAND-[COMMAND]} git config --global user.email   \"${GIT_EMAIL}\"" 
+echo -e "${COMMAND-[COMMAND]} git config --global author.name  \"${GIT_AUTHOR}\""
+git config --global user.name     "${GIT_NAME}"
+git config --global user.email    "${GIT_EMAIL}"
+git config --global author.name   "${GIT_AUTHOR}"
+echo -e "${SUCCESS-[SUCCESS]} Set username, email, and author name for git"
 echo ''
 
 
@@ -86,4 +89,14 @@ mkdir -p "${HOME}/.config/Code/User"
 echo -e "${COMMAND-[COMMAND]} ln -fs \"${CONFIGS}/settings.json\" \"${HOME}/.config/Code/User/settings.json\"" 
 ln -fs "${CONFIGS}/settings.json" "${HOME}/.config/Code/User/settings.json"
 echo -e "${SUCCESS-[SUCCESS]} Created dotfile symlinks"
+echo ''
+
+# install plugged for vim, if it doesn't already exist
+PLUGGED_FILE='~/.vim/autoload/plug.vim'
+if [ ! -f "${PLUGGED_FILE}" ]; then
+    PLUGGED_URL='https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+    echo -e "${TASK-[TASK]} Downloading and installing plugged for vim ..."
+    echo -e "${COMMAND-[COMMAND]} curl -fLo ~/.vim/autoload/plug.vim --create-dirs \"${PLUGGED_URL}\""
+    curl -fLo ~/.vim/autoload/plug.vim --create-dirs "${PLUGGED_URL}"
+fi
 echo ''
