@@ -56,13 +56,11 @@ let g:edge_disable_italic_comment = 1
 "let g:edge_sign_column_background = 'none' " 'default', 'none'
 "let g:edge_better_performance = 1
 
+" enable theme
 "colorscheme edge
 colorscheme synthwave84
 
 let g:airline_theme = 'edge'
-
-" enable theme
-"colorscheme synthwave84     " port of VSCode Synthwave 84' theme
 
 " enable rainbow syntax highlighting on brackets and parenthesis 
 let g:rainbow_active = 1 "set to 0 if you want to enable it later via :RainbowToggle
