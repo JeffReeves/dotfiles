@@ -361,6 +361,68 @@ function check_command_available(){
 }
 
 
+function create_softlink(){
+# creates a relative softlink if it doesn't already exist
+# args: 
+# - destination: string
+# - link: string
+# return:
+# - 0: success
+# - 1: failure
+# - 100: no arguments
+# - 101: missing argument destination
+# - 102: missing argument link 
+
+    # if no arguments are passed, return 100
+    if [ $# -eq 0 ]; then 
+        return 100
+    fi
+
+    # verify arguments were passed
+    # 1 = destination 
+    # 2 = link
+    local HELP_MESSAGE="create_softlink DESTINATION LINK"
+    if [ -z "${1}" ]; then 
+        printf "%-20s %s\n" "${ERROR-[ERROR]}" "Destination NOT provided"
+        printf "%-20s %s\n" "${HELP-[HELP]}" "${HELP_MESSAGE}"
+        return 101
+    fi 
+
+    if [ -z "${2}" ]; then
+        printf "%-20s %s\n" "${ERROR-[ERROR]}" "Link NOT provided"
+        printf "%-20s %s\n" "${HELP-[HELP]}" "${HELP_MESSAGE}"
+        return 102
+    fi 
+
+    local DESTINATION="${1}"
+    local LINK="${2}"
+
+    # verify destination exists
+    if [ ! -e "${DESTINATION}" ]; then 
+        printf "%-20s %s\n" "${ERROR-[ERROR]}" "Destination ${DESTINATION} does not exist"
+        printf "%-20s %s\n" "${HELP-[HELP]}" "Create the destination or verify it exists"
+        return 2
+    fi 
+
+    # verify if link already exists
+    if [ -L "${LINK}" ]; then 
+        printf "%-20s %s\n" "${WARNING-[WARNING]}" "Link ${LINK} already exists. Skipping ..."
+        return 0
+    fi
+    
+    # main 
+    printf "%-20s %s\n" "${COMMAND-[COMMAND]}" "ln -rs -T \"${DESTINATION}\" \"${LINK}\""
+    ln -rs -T "${DESTINATION}" "${LINK}"
+    EXIT_CODE = ${?}
+    if [ "${EXIT_CODE}" -ne 0 ]; then
+        printf "%-20s %s\n" "${ERROR-[ERROR]}" "Unable to create softlink (exit code: ${EXIT_CODE})"
+        return 1
+    else
+        printf "%-20s %s\n" "${SUCCESS-[SUCCESS]}" "Created softlink: $(ls -al ${LINK})"
+        return 0
+    fi
+}
+
 #== EXPORTS ===================================================================
 
 export -f padding_get_length
@@ -374,3 +436,4 @@ export -f confirm_current_hostname
 export -f check_file_exists
 export -f check_set_value
 export -f check_command_available
+export -f create_softlink
