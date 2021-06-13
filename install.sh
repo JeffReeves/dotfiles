@@ -84,6 +84,8 @@ echo -e "${COMMAND-[COMMAND]} ln -fs \"${CONFIGS}/.tmux.conf\" \"${HOME}/.tmux.c
 ln -fs "${CONFIGS}/.tmux.conf" "${HOME}/.tmux.conf"
 echo -e "${COMMAND-[COMMAND]} ln -fs \"${CONFIGS}/.vimrc\"     \"${HOME}/.vimrc\"" 
 ln -fs "${CONFIGS}/.vimrc"     "${HOME}/.vimrc"
+echo -e "${COMMAND-[COMMAND]} ln -fs \"${CONFIGS}/.vim/\"     \"${HOME}/.vim\"" 
+ln -fs "${CONFIGS}/.vim/"     "${HOME}/.vim"
 echo -e "${COMMAND-[COMMAND]} mkdir -p \"${HOME}/.config/Code/User\"" 
 mkdir -p "${HOME}/.config/Code/User"
 echo -e "${COMMAND-[COMMAND]} ln -fs \"${CONFIGS}/settings.json\" \"${HOME}/.config/Code/User/settings.json\"" 
@@ -91,12 +93,19 @@ ln -fs "${CONFIGS}/settings.json" "${HOME}/.config/Code/User/settings.json"
 echo -e "${SUCCESS-[SUCCESS]} Created dotfile symlinks"
 echo ''
 
-# install plugged for vim, if it doesn't already exist
-PLUGGED_FILE='~/.vim/autoload/plug.vim'
+# extract .git directories for plugged plugin repos
+VIM_DIR="${CONFIGS}/.vim"
+PLUGGED_DIR="${VIM_DIR}/plugged"
+PLUGGED_FILE="${VIM_DIR}/autoload/plug.vim"
+PLUGGED_DIRS=$(ls -A "${PLUGGED_DIR}")
+
+# install plugged, if it doesn't already exist
 if [ ! -f "${PLUGGED_FILE}" ]; then
     PLUGGED_URL='https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
     echo -e "${TASK-[TASK]} Downloading and installing plugged for vim ..."
-    echo -e "${COMMAND-[COMMAND]} curl -fLo ~/.vim/autoload/plug.vim --create-dirs \"${PLUGGED_URL}\""
-    curl -fLo ~/.vim/autoload/plug.vim --create-dirs "${PLUGGED_URL}"
+    echo -e "${COMMAND-[COMMAND]} curl -fLo \"${PLUGGED_FILE}\" --create-dirs \"${PLUGGED_URL}\""
+    curl -fLo "${PLUGGED_FILE}" --create-dirs "${PLUGGED_URL}"
 fi
 echo ''
+
+
