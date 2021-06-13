@@ -79,18 +79,12 @@ echo ''
 
 # create links to dotfiles in home directory
 echo -e "${TASK-[TASK]} Create symlinks to dotfiles in home directory ..."
-echo -e "${COMMAND-[COMMAND]} ln -fs \"${CONFIGS}/.gitconfig\" \"${HOME}/.gitconfig\"" 
-ln -fs "${CONFIGS}/.gitconfig" "${HOME}/.gitconfig"
-echo -e "${COMMAND-[COMMAND]} ln -fs \"${CONFIGS}/.tmux.conf\" \"${HOME}/.tmux.conf\"" 
-ln -fs "${CONFIGS}/.tmux.conf" "${HOME}/.tmux.conf"
-echo -e "${COMMAND-[COMMAND]} ln -fs \"${CONFIGS}/.vimrc\"     \"${HOME}/.vimrc\"" 
-ln -fs "${CONFIGS}/.vimrc"     "${HOME}/.vimrc"
-echo -e "${COMMAND-[COMMAND]} ln -fs \"${CONFIGS}/.vim/\"     \"${HOME}/.vim\"" 
-ln -fs "${CONFIGS}/.vim/"     "${HOME}/.vim"
-echo -e "${COMMAND-[COMMAND]} mkdir -p \"${HOME}/.config/Code/User\"" 
+create_softlink "${CONFIGS}/.gitconfig" "${HOME}/.gitconfig" 
+create_softlink "${CONFIGS}/.tmux.conf" "${HOME}/.tmux.conf"
+create_softlink "${CONFIGS}/.vimrc"     "${HOME}/.vimrc"
+create_softlink"${CONFIGS}/.vim/"     "${HOME}/.vim"
 mkdir -p "${HOME}/.config/Code/User"
-echo -e "${COMMAND-[COMMAND]} ln -fs \"${CONFIGS}/settings.json\" \"${HOME}/.config/Code/User/settings.json\"" 
-ln -fs "${CONFIGS}/settings.json" "${HOME}/.config/Code/User/settings.json"
+create_softlink "${CONFIGS}/settings.json" "${HOME}/.config/Code/User/settings.json"
 echo -e "${SUCCESS-[SUCCESS]} Created dotfile symlinks"
 echo ''
 
