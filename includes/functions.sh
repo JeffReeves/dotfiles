@@ -413,7 +413,7 @@ function create_softlink(){
     # main 
     printf "%-20s %s\n" "${COMMAND-[COMMAND]}" "ln -rs -T \"${DESTINATION}\" \"${LINK}\""
     ln -rs -T "${DESTINATION}" "${LINK}"
-    EXIT_CODE = ${?}
+    EXIT_CODE=${?}
     if [ "${EXIT_CODE}" -ne 0 ]; then
         printf "%-20s %s\n" "${ERROR-[ERROR]}" "Unable to create softlink (exit code: ${EXIT_CODE})"
         return 1
