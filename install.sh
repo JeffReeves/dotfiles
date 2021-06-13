@@ -62,6 +62,18 @@ fi
 echo ''
 
 
+# create links to dotfiles in home directory
+echo -e "${TASK-[TASK]} Create symlinks to dotfiles in home directory ..."
+create_softlink "${CONFIGS}/.gitconfig" "${HOME}/.gitconfig" 
+create_softlink "${CONFIGS}/.tmux.conf" "${HOME}/.tmux.conf"
+create_softlink "${CONFIGS}/.vimrc"     "${HOME}/.vimrc"
+create_softlink "${CONFIGS}/.vim/"      "${HOME}/.vim"
+mkdir -p "${HOME}/.config/Code/User"
+create_softlink "${CONFIGS}/settings.json" "${HOME}/.config/Code/User/settings.json"
+echo -e "${SUCCESS-[SUCCESS]} Created dotfile symlinks"
+echo ''
+
+
 # configure git username, email, and author name
 GIT_NAME='JeffReeves'
 GIT_EMAIL='jeff@binary.run'
@@ -76,17 +88,6 @@ git config --global author.name   "${GIT_AUTHOR}"
 echo -e "${SUCCESS-[SUCCESS]} Set username, email, and author name for git"
 echo ''
 
-
-# create links to dotfiles in home directory
-echo -e "${TASK-[TASK]} Create symlinks to dotfiles in home directory ..."
-create_softlink "${CONFIGS}/.gitconfig" "${HOME}/.gitconfig" 
-create_softlink "${CONFIGS}/.tmux.conf" "${HOME}/.tmux.conf"
-create_softlink "${CONFIGS}/.vimrc"     "${HOME}/.vimrc"
-create_softlink "${CONFIGS}/.vim/"      "${HOME}/.vim"
-mkdir -p "${HOME}/.config/Code/User"
-create_softlink "${CONFIGS}/settings.json" "${HOME}/.config/Code/User/settings.json"
-echo -e "${SUCCESS-[SUCCESS]} Created dotfile symlinks"
-echo ''
 
 # install vim-plug, if it doesn't already exist
 VIM_DIRECTORY="${CONFIGS}/.vim"
