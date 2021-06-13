@@ -16,7 +16,7 @@ if [ -z "${USER}" ]; then
 fi
 
 # get the script directory
-DOTFILES_DIRECTORY=$(cd $(dirname "${BASH_SOURCE[0]}") > /dev/null 2>&1 && pwd)
+export DOTFILES_DIRECTORY=$(cd $(dirname "${BASH_SOURCE[0]}") > /dev/null 2>&1 && pwd)
 
 # define paths
 CONFIGS="${DOTFILES_DIRECTORY}/configs"

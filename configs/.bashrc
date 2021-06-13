@@ -3,7 +3,7 @@ export TERM='xterm-256color'
 export EDITOR='vim'
 
 # locate dotfiles directory
-DOTFILES_DIRECTORY=$(find -O3 "${HOME}" -user ${USER} -type d -name 'dotfiles')
+export DOTFILES_DIRECTORY=$(find -O3 "${HOME}" -user ${USER} -type d -name 'dotfiles')
 
 # import common scripts
 MAIN_INCLUDE_FILE="${DOTFILES_DIRECTORY}/includes/_main.sh"
