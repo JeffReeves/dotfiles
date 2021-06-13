@@ -93,19 +93,13 @@ ln -fs "${CONFIGS}/settings.json" "${HOME}/.config/Code/User/settings.json"
 echo -e "${SUCCESS-[SUCCESS]} Created dotfile symlinks"
 echo ''
 
-# extract .git directories for plugged plugin repos
-VIM_DIR="${CONFIGS}/.vim"
-PLUGGED_DIR="${VIM_DIR}/plugged"
-PLUGGED_FILE="${VIM_DIR}/autoload/plug.vim"
-PLUGGED_DIRS=$(ls -A "${PLUGGED_DIR}")
-
-# install plugged, if it doesn't already exist
-if [ ! -f "${PLUGGED_FILE}" ]; then
-    PLUGGED_URL='https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
-    echo -e "${TASK-[TASK]} Downloading and installing plugged for vim ..."
-    echo -e "${COMMAND-[COMMAND]} curl -fLo \"${PLUGGED_FILE}\" --create-dirs \"${PLUGGED_URL}\""
-    curl -fLo "${PLUGGED_FILE}" --create-dirs "${PLUGGED_URL}"
+# install vim-plug, if it doesn't already exist
+VIM_DIRECTORY="${CONFIGS}/.vim"
+VIM_PLUG_FILE="${VIM_DIRECTORY}/autoload/plug.vim"
+if [ ! -f "${VIM_PLUG_FILE}" ]; then
+    VIMPLUG_URL='https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+    echo -e "${TASK-[TASK]} Downloading and installing vim-plug for vim ..."
+    echo -e "${COMMAND-[COMMAND]} curl -fLo \"${VIM_PLUG_FILE}\" --create-dirs \"${VIM_PLUG_URL}\""
+    curl -fLo "${VIM_PLUG_FILE}" --create-dirs "${VIM_PLUG_URL}"
 fi
 echo ''
-
-
