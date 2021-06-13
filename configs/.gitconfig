@@ -11,4 +11,4 @@
 	ui = auto
 [alias]
 	l = log --graph --decorate --all
-    pushall = '!git remote | xargs -L1 git push --all'
+	pushall = !git remote | xargs -L1 git push --all
