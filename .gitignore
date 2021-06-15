@@ -1,0 +1,2 @@
+# ignore dist/rhel7, if extracted
+dist/rhel7/
