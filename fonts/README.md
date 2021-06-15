@@ -1,0 +1,1 @@
+Fonts acquired from [ryanoasis/nerd-fonts](https://github.com/ryanoasis/nerd-fonts/), which is under MIT License.
