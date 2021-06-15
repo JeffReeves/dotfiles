@@ -1,4 +1,5 @@
 syntax on                   " syntax highlighting
+set encoding=UTF-8          " UTF-8 for character support
 set term=xterm-256color     " ensures HOME and END keys work as expected, and basic colors are supported
 "set term=screen-256color
 if has('termguicolors')     " if `vim --version` shows: +termguicolors
