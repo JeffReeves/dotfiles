@@ -3,6 +3,8 @@
 " vi compatibility
 set nocompatible            " disable compatibility with vi
 
+
+
 " history
 set history=1000            " set history limit
 
@@ -21,7 +23,7 @@ syntax on                   " syntax highlighting
 
 " mouse
 if has('mouse')             " enable mouse, if supported
-    set mouse
+    set mouse=a             " enable in all modes
 endif
 
 " cursor
