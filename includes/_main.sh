@@ -1,6 +1,6 @@
 #!/bin/bash
-# author: Jeff Reeves
 # purpose: main loader for including all common includes files
+# author: Jeff Reeves
 # how to use: source this file in a BASH script
 
 # define the common directory and its list of files
