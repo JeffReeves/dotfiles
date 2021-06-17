@@ -210,9 +210,6 @@ function message(){
         esac
     fi
 
-    # calculate padding based on length
-    local PADDING=$(padding_get_length "${PREFIX}")
-
     # argument_2..argument_N: text
     local MESSAGE=''
 
@@ -221,7 +218,7 @@ function message(){
     fi
 
     if [[ ! -z "${PREFIX}" ]]; then 
-        printf "%-${PADDING}s %s\n" "${PREFIX}" "${MESSAGE}"
+        printf "%-20s %s\n" "${PREFIX}" "${MESSAGE}"
     else 
         printf "%s\n" "${MESSAGE}"
     fi
