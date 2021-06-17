@@ -356,10 +356,24 @@ function create_softlink(){
     message COMMAND "${RELATIVE_SYMLINK}"
     eval "${RELATIVE_SYMLINK}"
     EXIT_CODE=${?}
-    if [ "${EXIT_CODE}" -ne 0 ]; then
-        message ERROR "Unable to create softlink (exit code: ${EXIT_CODE})"
-        return 1
-    else
+    if [ "${EXIT_CODE}" -eq 0 ]; then
+        message SUCCESS "Created softlink: $(ls -al ${LINK})"
+        return 0
+    fi
+
+    # fallback 
+    message ERROR "Unable to create softlink (exit code: ${EXIT_CODE})"
+    message TASK  "Attempting fallback method ..."
+
+    REMOVE_SYMLINK="rm -f \"${LINK}\""
+    message COMMAND "${REMOVE_SYMLINK}"
+    eval "${REMOVE_SYMLINK}"
+
+    CREATE_SYMLINK="ln -s \"${DESTINATION}\" \"${LINK}\""
+    message COMMAND "${CREATE_SYMLINK}"
+    eval "${CREATE_SYMLINK}"
+    EXIT_CODE=${?}
+    if [ "${EXIT_CODE}" -eq 0 ]; then
         message SUCCESS "Created softlink: $(ls -al ${LINK})"
         return 0
     fi
