@@ -9,6 +9,9 @@ set history=1000            " set history limit
 " encoding
 set encoding=UTF-8          " UTF-8 for character support
 
+" drawing
+set lazyredraw              " only redraw the screen when necessary
+
 " color support
 set term=xterm-256color     " basic 256 color support
 "set term=screen-256color   " alternative, if xterm unavailable
@@ -51,6 +54,7 @@ set pastetoggle=<F2>        " prevents issues when pasting
 
 " sound
 set noerrorbells            " disable sound effects
+set visualbell              " use a visual bell instead
 
 " filetype association
 filetype on                 " enable filetype detection 
@@ -60,7 +64,7 @@ filetype indent on          " load indent files based on filetype
 " search
 set hlsearch                " use highlighting
 set incsearch               " highlight characters as they are typed
-set showmatch               " show word matches
+set showmatch               " highlight matching parenthesis/brackets
 set smartcase               " searching with capitals is case sensitive
 "set showcmd                " show commands being ran in bottom right
 
