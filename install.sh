@@ -47,12 +47,15 @@ if [ -f "${BASHRC}" ]; then
         message TASK    "Appending ${DOTFILE_BASHRC} ..."
         message COMMAND "${ADD_SOURCE_FILES_TO_BASHRC}"
         eval "${ADD_SOURCE_FILES_TO_BASHRC}"
-		if [ ${?} -eq 0 ]; then 
+        EXIT_CODE=${?}
+        if [ "${EXIT_CODE}" -eq 0 ]; then
             SOURCE_BASHRC="source \"${BASHRC}\""
             message SUCCESS "${BASHRC} now contains ${DOTFILE_BASHRC}"
             message TASK    "Source ${BASHRC} file to take effect ..." 
             message COMMAND "${SOURCE_BASHRC}"
 			eval "${SOURCE_BASHRC}"
+        else 
+            message ERROR "Unable to add source files to ${BASHRC} (Exit Code: ${EXIT_CODE})"
 		fi
     else
         message SUCCESS "${BASHRC} already contains ${DOTFILE_BASHRC}"
