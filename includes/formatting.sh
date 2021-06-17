@@ -212,7 +212,6 @@ function message(){
 
     # calculate padding based on length
     local PADDING=$(padding_get_length "${PREFIX}")
-    print "[DEBUG] Padding Length: ${PADDING}"
 
     # argument_2..argument_N: text
     local MESSAGE=''
