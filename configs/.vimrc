@@ -137,27 +137,4 @@ colorscheme synthwave84
 
 "==[ KEY MAPPINGS ]========================================================================================================================
 
-" File explorer plugin
-map <C-b> :NERDTreeToggle<CR>
-
-" use alt+hjkl to move between split/vsplit panels
-tnoremap <A-h> <C-\><C-n><C-w>h
-tnoremap <A-j> <C-\><C-n><C-w>j
-tnoremap <A-k> <C-\><C-n><C-w>k
-tnoremap <A-l> <C-\><C-n><C-w>l
-nnoremap <A-h> <C-w>h
-nnoremap <A-j> <C-w>j
-nnoremap <A-k> <C-w>k
-nnoremap <A-l> <C-w>l
-
-" mapping escape to ctrl c
-map <Esc><C-c> <CR>
-inoremap jk <Esc>
-inoremap kj <Esc>
-
-" alternater way to save
-nnoremap <silent> <C-s>     :w<CR>
-nnoremap <silent> <C-Down>  :resize -2<CR>
-nnoremap <silent> <C-Up>    :resize +2<CR>
-nnoremap <silent> <C-Left>  :vertical resize -2<CR>
-nnoremap <silent> <C-Right> :vertical resize +2<CR>
+map <F3> :NERDTreeToggle<CR>    " toggle open/close NerdTree Menu
