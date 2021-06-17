@@ -3,8 +3,6 @@
 " vi compatibility
 set nocompatible            " disable compatibility with vi
 
-
-
 " history
 set history=1000            " set history limit
 
