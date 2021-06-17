@@ -1,14 +1,16 @@
 #!/bin/bash
-# author: Jeff Reeves
 # purpose: Adds formatting options to text, such as color or bolding.
+# author: Jeff Reeves
 # how to use: Source this file in a BASH script, then:
-#   - call the functions: 
+#   - call the functions (with or without quotes): 
 #       color 'error' 'This is an error'
-#       color 'blue' 'Do you wish to continue?'
+#       color blue da ba dee
 #       bold 'this is bold text'
-#   - call macro variables:
-#       DEBUG INFO TASK COMMAND PROMPT HELP SUCCESS WARNING ERROR
-# note: can be used in echo, printf, echo, etc.
+#       bold this is some other bold text
+#       message 'info' 'This is an information message'
+#       message 'prompt' 'Would you like to continue?'
+#       message error this is an error!
+# note: can be used in echo, printf, etc.
 
 
 #== FUNCTIONS =================================================================
@@ -221,6 +223,7 @@ function message(){
 
 #== EXPORTS ===================================================================
 
+export -f pprintf
 export -f color
 export -f bold
 export -f message
