@@ -1,9 +1,9 @@
 #!/bin/bash
 # purpose: set user variables and put dotfiles where they need to be
 # author: Jeffrey Reeves
-# how to use: run this script
-# 	- cd ~
-#   - ./install.sh
+# how to use: run this script with bash
+#   ex: ~/dotfiles/install.sh
+
 
 # define home directory
 if [ -z "${HOME}" ]; then
@@ -42,35 +42,37 @@ fi
 # append dotfiles' .bashrc to ~/.bashrc
 if [ -f "${BASHRC}" ]; then
     if ! grep -q "${DOTFILE_BASHRC}" "${BASHRC}"; then
-        echo -e "${INFO-[INFO]} ${BASHRC} does not contain ${DOTFILE_BASHRC}"
-		echo -e "${TASK-[TASK]} Appending ${DOTFILE_BASHRC} ..."
-		echo -e "${COMMAND-[COMMAND]} ${SOURCE_FILES} >> \"${BASHRC}\""
-		echo -e "${SOURCE_FILES}" >> "${BASHRC}"
+        ADD_SOURCE_FILES_TO_BASHRC="echo -e \"${SOURCE_FILES}\" >> \"${BASHRC}\""
+        message INFO    "${BASHRC} does not contain ${DOTFILE_BASHRC}"
+        message TASK    "Appending ${DOTFILE_BASHRC} ..."
+        message COMMAND "${ADD_SOURCE_FILES_TO_BASHRC}"
+        eval "${ADD_SOURCE_FILES_TO_BASHRC}"
 		if [ ${?} -eq 0 ]; then 
-			echo -e "${SUCCESS-[SUCCESS]} ${BASHRC} now contains ${DOTFILE_BASHRC}"
-			echo -e "${TASK-[TASK]} Source ${BASHRC} file to take effect ..." 
-			echo -e "${COMMAND-[COMMAND]} source ${BASHRC}"
-			source "${BASHRC}"
+            SOURCE_BASHRC="source \"${BASHRC}\""
+            message SUCCESS "${BASHRC} now contains ${DOTFILE_BASHRC}"
+            message TASK    "Source ${BASHRC} file to take effect ..." 
+            message COMMAND "${SOURCE_BASHRC}"
+			eval "${SOURCE_BASHRC}"
 		fi
     else
-		echo -e "${SUCCESS-[SUCCESS]} ${BASHRC} already contains ${DOTFILE_BASHRC}"
+        message SUCCESS "${BASHRC} already contains ${DOTFILE_BASHRC}"
     fi
 else
-    echo -e "${ERROR-[ERROR]} ${BASHRC} not found"
-    echo -e "${HELP-[HELP]} Please create a ${BASHRC} file"
+    message ERROR "${BASHRC} not found"
+    message HELP "Please create a ${BASHRC} file"
 fi
 echo ''
 
 
 # create links to dotfiles in home directory
-echo -e "${TASK-[TASK]} Create symlinks to dotfiles in home directory ..."
+message TASK "Create symlinks to dotfiles in home directory ..."
 create_softlink "${CONFIGS}/.gitconfig" "${HOME}/.gitconfig" 
 create_softlink "${CONFIGS}/.tmux.conf" "${HOME}/.tmux.conf"
 create_softlink "${CONFIGS}/.vimrc"     "${HOME}/.vimrc"
 create_softlink "${CONFIGS}/.vim/"      "${HOME}/.vim"
 mkdir -p "${HOME}/.config/Code/User"
 create_softlink "${CONFIGS}/settings.json" "${HOME}/.config/Code/User/settings.json"
-echo -e "${SUCCESS-[SUCCESS]} Created dotfile symlinks"
+message SUCCESS "Created dotfile symlinks"
 echo ''
 
 
@@ -78,14 +80,17 @@ echo ''
 GIT_NAME='JeffReeves'
 GIT_EMAIL='jeff@binary.run'
 GIT_AUTHOR='Jeff Reeves'
-echo -e "${TASK-[TASK]} Set global git config username, email, and author name ..."
-echo -e "${COMMAND-[COMMAND]} git config --global user.name    \"${GIT_NAME}\""  
-echo -e "${COMMAND-[COMMAND]} git config --global user.email   \"${GIT_EMAIL}\"" 
-echo -e "${COMMAND-[COMMAND]} git config --global author.name  \"${GIT_AUTHOR}\""
-git config --global user.name     "${GIT_NAME}"
-git config --global user.email    "${GIT_EMAIL}"
-git config --global author.name   "${GIT_AUTHOR}"
-echo -e "${SUCCESS-[SUCCESS]} Set username, email, and author name for git"
+GIT_CONFIG_NAME="git config --global user.name \"${GIT_NAME}\""
+GIT_CONFIG_EMAIL="git config --global user.email \"${GIT_EMAIL}\""
+GIT_CONFIG_AUTHOR="git config --global author.name \"${GIT_AUTHOR}\""
+message TASK    "Set global git config username, email, and author name ..."
+message COMMAND "${GIT_CONFIG_NAME}"
+message COMMAND "${GIT_CONFIG_EMAIL}"
+message COMMAND "${GIT_CONFIG_AUTHOR}"
+eval "${GIT_CONFIG_NAME}"
+eval "${GIT_CONFIG_EMAIL}"
+eval "${GIT_CONFIG_AUTHOR}"
+message SUCCESS "Set username, email, and author name for git"
 echo ''
 
 
@@ -93,9 +98,10 @@ echo ''
 VIM_DIRECTORY="${CONFIGS}/.vim"
 VIM_PLUG_FILE="${VIM_DIRECTORY}/autoload/plug.vim"
 if [ ! -f "${VIM_PLUG_FILE}" ]; then
-    VIMPLUG_URL='https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
-    echo -e "${TASK-[TASK]} Downloading and installing vim-plug for vim ..."
-    echo -e "${COMMAND-[COMMAND]} curl -fLo \"${VIM_PLUG_FILE}\" --create-dirs \"${VIM_PLUG_URL}\""
-    curl -fLo "${VIM_PLUG_FILE}" --create-dirs "${VIM_PLUG_URL}"
+    VIM_PLUG_URL='https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+    CURL_VIM_PLUG="curl -fLo \"${VIM_PLUG_FILE}\" --create-dirs \"${VIM_PLUG_URL}\""
+    message TASK    "Downloading and installing vim-plug for vim ..."
+    message COMMAND "${CURL_VIM_PLUG}"
+    eval "${CURL_VIM_PLUG}"
 fi
 echo ''
