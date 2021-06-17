@@ -62,7 +62,7 @@ set hlsearch                " use highlighting
 set incsearch               " highlight characters as they are typed
 set showmatch               " show word matches
 set smartcase               " searching with capitals is case sensitive
-set showcmd                 " show partial commands 
+"set showcmd                " show commands being ran in bottom right
 
 " tab completion
 set wildmenu                " tab completion in vim
