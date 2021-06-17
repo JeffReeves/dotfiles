@@ -1,27 +1,10 @@
 #!/bin/bash
-# author: Jeff Reeves
 # purpose: Common functions for use within various BASH scripts.
+# author: Jeff Reeves
 # how to use: source this file in a BASH script, then call the functions
-#
-# function list:
-# 
+# depends:
+#   - formatting.sh
 
-# NOTE: commented out to prevent additional overhead
-# set defaults if formatting.sh was not sourced
-#FORMATTING_VARIABLES='DEBUG INFO COMMAND PROMPT HELP SUCCESS WARNING ERROR'
-#for FORMAT_VARIABLE in ${FORMATTING_VARIABLES}; do 
-#    if [ -z "${!FORMAT_VARIABLE}" ]; then
-#        declare "${FORMAT_VARIABLE}"="[${VAR}]"
-#    fi
-#done
-#
-#if [ -z "$(declare -F color)" ]; then
-#    function color(){ 
-#        if [ $# -eq 0]; then return 100; fi
-#        if [ ! -z "${1}" ]; then shift; fi
-#	echo -e "${0}"
-#    }
-#fi
 
 #== FUNCTIONS =================================================================
 
@@ -70,14 +53,15 @@ function prompt_any_key_to_continue(){
 # return:
 # - 0: success
 
-    read -n1 -s -r -p "${PROMPT} Press any key to continue"
+    read -n1 -s -r -p "$(message PROMPT 'Press any key to continue ')"
+
     READ_EXIT_CODE=$?
     if [ "${READ_EXIT_CODE}" -ne 0 ]; then 
-        printf "\n%-20s %s\n" "${ERROR}" "User did not wish to continue, or another error occurred"
+        message ERROR "User did not wish to continue, or another error occurred"
         return ${READ_EXIT_CODE}
     fi
 
-    printf "\n%-20s %s\n" "${SUCCESS}" "User is continuing"
+    message SUCCESS "User is continuing"
     return 0
 }
 
@@ -89,13 +73,13 @@ function prompt_yes_to_continue(){
 # return:
 # - 0: success
 
-    read -n1 -s -r -p "${PROMPT} Press Y/y to continue" CONTINUE
+    read -n1 -s -r -p "$(message PROMPT 'Press Y/y to continue ')" CONTINUE
     if [[ ! "${CONTINUE}" =~ ^[Yy] ]]; then 
-        printf "\n%-20s %s\n" "${ERROR}" "User did not wish to continue, or another error occurred"
+        message ERROR "User did not wish to continue, or another error occurred"
         return 100
     fi
 
-    printf "\n%-20s %s\n" "${SUCCESS}" "User is continuing"
+    message SUCCESS "User is continuing"
     return 0
 }
 
@@ -119,13 +103,13 @@ function confirm_current_user(){
     local CURRENT_USER="$(whoami)"
 
     # main 
-    printf "%-20s %s\n" "${TASK}" "Verifying current user is ${DESIRED_USER} ..."
-    printf "%-20s %s\n" "$(color info '[CURRENT USER]')" "${CURRENT_USER}"
+    message TASK "Verifying current user is \"${DESIRED_USER}\" ..."
+    message INFO "Current User: ${CURRENT_USER}"
     if [ "${CURRENT_USER}" != "${DESIRED_USER}" ]; then
-        printf "%-20s %s\n" "${ERROR}" "NOT logged in as the desired user."
+        message ERROR "NOT logged in as the desired user"
         return 1
     else
-        printf "%-20s %s\n" "${SUCCESS}" "Logged in as the desired user."
+        message SUCCESS "Logged in as the desired user"
         return 0
     fi
 }
@@ -150,13 +134,13 @@ function confirm_current_hostname(){
     local CURRENT_HOSTNAME="$(uname -n)"
 
     # main 
-    printf "%-20s %s\n" "${TASK}" "Verifying current hostname contains or matches ${DESIRED_HOSTNAME} ..."
-    printf "%-20s %s\n" "$(color info '[CURRENT HOSTNAME]')" "${CURRENT_HOSTNAME}"
+    message TASK "Verifying current hostname contains or matches \"${DESIRED_HOSTNAME}\" ..."
+    message INFO "Current Hostname: ${CURRENT_HOSTNAME}"
     if [[ ! "${CURRENT_HOSTNAME}" =~ "${DESIRED_HOSTNAME}" ]]; then
-        printf "%-20s %s\n" "${ERROR}" "NOT logged into the desired host."
+        message ERROR "NOT logged in as the desired host"
         return 1
     else
-        printf "%-20s %s\n" "${SUCCESS}" "Logged into the desired host."
+        message SUCCESS "Logged in as the desired host"
         return 0
     fi
 }
@@ -178,12 +162,12 @@ function check_file_exists(){
     local FILE="${1}"
 
     # main 
-    printf "%-20s %s\n" "${TASK}" "Verifying ${FILE} exists ..."
+    message TASK "Verifying \"${FILE}\" exists ..."
     if [ ! -f "${FILE}" ]; then
-        printf "%-20s %s\n" "${ERROR}" "${FILE} does NOT exist"
+        message ERROR "\"${FILE}\" does NOT exist"
         return 1
     else
-        printf "%-20s %s\n" "${SUCCESS}" "${FILE} exist"
+        message SUCCESS "\"${FILE}\" exists"
         return 0
     fi
 }
@@ -210,7 +194,7 @@ function check_set_value(){
     local SECOND_RUN='False'
 
     # if first argument is a second run
-    if [ "${1}" == 'second_run' ]; then 
+    if [ "${1}" == 'recursive' ]; then 
         SECOND_RUN='True'
         shift
     fi
@@ -225,25 +209,25 @@ function check_set_value(){
     local CURRENT_VALUES=$(eval "${GREP}")
 
     # main 
-    printf "%-20s %s\n" "${TASK}" "Verifying ${FILE} has ${KEY} set to ${DESIRED VALUE} ..."
-    printf "%-20s %s\n" "${COMMAND}" "${GREP}"
+    message TASK    "Verifying \"${FILE}\" has \"${KEY}\" set to \"${DESIRED VALUE}\" ..."
+    message COMMAND "${GREP}"
 
     # verify there is at least one current value found
     if [ -z "${CURRENT_VALUES}" ]; then 
-        printf "%-20s %s\n" "${ERROR}" "No current value found"
+        message ERROR "No current value found"
         return 200
     fi
 
     # iterate over all current values found
     while IFS='' read -r CURRENT_VALUE || [[ -n "${CURRENT_VALUE}" ]]; do 
 
-        printf "%-20s %s\n" "$(color info '[CURRENT VALUE]')" "${CURRENT_VALUE}"
+        message INFO "Current Value: ${CURRENT_VALUE}"
 
         # skip lines starting with a comment
         local REGEX_COMMENT='^[ \t]*(#)' # extensible for other comment characters
         local BEGINS_WITH_COMMENT=$(echo "${CURRENT_VALUE}" | grep -E "${REGEX_COMMENT}")
         if [ "${BEGINS_WITH_COMMENT}" ]; then 
-            printf "%-20s %s\n" "${INFO}" "Current value is a comment line. Skipping..."
+            message INFO "Current value is a comment line. Skipping ..."
             continue
         fi
 
@@ -252,16 +236,16 @@ function check_set_value(){
 
         # if current value does not match desired value
         if [ "${CURRENT_VALUE}" != "${DESIRED_VALUE}" ]; then
-            printf "%-20s %s\n" "$(color info '[DESIRED VALUE]')" "${DESIRED_VALUE}"
-            printf "%-20s %s\n" "${WARNING}" "Current value does not match desired value"
-            printf "%-20s %s\n" "${TASK}" "Setting desired value ..."
-            printf "%-20s %s\n" "${COMMAND}" "${SED_REPLACE}"
+            message INFO    "Desired Value: ${DESIRED_VALUE}"
+            message WARNING "Current value does not match desired value"
+            message TASK    "Setting desired value ..."
+            message COMMAND "${SED_REPLACE}"
             eval "${SED_REPLACE}"
             local EXIT_CODE=$?
 
             # confirm sed replacement worked
             if [ "${EXIT_CODE}" -ne 0 ]; then 
-                printf "%-20s %s\n" "${ERROR}" "Exit Code: ${EXIT_CODE}"
+                message ERROR "Exit Code: ${EXIT_CODE}"
                 return ${EXIT_CODE}
             fi
 
@@ -269,7 +253,7 @@ function check_set_value(){
             if [ "${SECOND_RUN}" == 'False' ]; then
                 check_set_value 'recursive' "$@"
             else 
-                printf "%-20s %s\n" "${ERROR}" "Current value was NOT updated"
+                message ERROR "Current value was NOT updated"
                 return 1
             fi
 
@@ -277,9 +261,9 @@ function check_set_value(){
         elif [ "${CURRENT_VALUE}" == "${DESIRED_VALUE}" ]; then
 
             if [ "${SECOND_RUN}" == 'False' ]; then
-                printf "%-20s %s\n" "${SUCCESS}" "${KEY} already set to ${DESIRED_VALUE}"
+                message SUCCESS "\"${KEY}\" already set to \"${DESIRED_VALUE}\""
             else
-                printf "%-20s %s\n" "${SUCCESS}" "${KEY} set to ${DESIRED_VALUE}"
+                message SUCCESS "\"${KEY}\" set to \"${DESIRED_VALUE}\""
             fi
         fi
     done <<< "${CURRENT_VALUES}"
@@ -302,17 +286,17 @@ function check_command_available(){
     local COMMAND="${1}"
 
     # main 
-    printf "%-20s %s\n" "${TASK}" "Verifying ${COMMAND} is available ..."
+    message TASK "Verifying \"${COMMAND}\" command is available ..."
 
     # command
     local WHICH_EXIT_CODE=$(which "${COMMAND}" > /dev/null 2>&1; echo $?)
 
     # check if which finds a command
     if [ "${WHICH_EXIT_CODE}" -ne 0 ]; then
-        printf "%-20s %s\n" "${ERROR}" "${COMMAND} command NOT available"
+        message ERROR "\"${COMMAND}\" command NOT available"
         return 1
     else
-        printf "%-20s %s\n" "${SUCCESS}" "${COMMAND} available"
+        message SUCCESS "\"${COMMAND}\" command is available"
         return 0
     fi
 }
@@ -340,14 +324,14 @@ function create_softlink(){
     # 2 = link
     local HELP_MESSAGE="create_softlink DESTINATION LINK"
     if [ -z "${1}" ]; then 
-        printf "%-20s %s\n" "${ERROR-[ERROR]}" "Destination NOT provided"
-        printf "%-20s %s\n" "${HELP-[HELP]}" "${HELP_MESSAGE}"
+        message ERROR "Destination NOT provided"
+        message HELP  "${HELP_MESSAGE}"
         return 101
     fi 
 
     if [ -z "${2}" ]; then
-        printf "%-20s %s\n" "${ERROR-[ERROR]}" "Link NOT provided"
-        printf "%-20s %s\n" "${HELP-[HELP]}" "${HELP_MESSAGE}"
+        message ERROR "Link NOT provided"
+        message HELP  "${HELP_MESSAGE}"
         return 102
     fi 
 
@@ -356,26 +340,28 @@ function create_softlink(){
 
     # verify destination exists
     if [ ! -e "${DESTINATION}" ]; then 
-        printf "%-20s %s\n" "${ERROR-[ERROR]}" "Destination ${DESTINATION} does not exist"
-        printf "%-20s %s\n" "${HELP-[HELP]}" "Create the destination or verify it exists"
+        message ERROR "Destination \"${DESTINATION}\" does not exist"
+        message HELP  "Create the destination or verify it exists"
         return 2
     fi 
 
     # verify if link already exists
     if [ -L "${LINK}" ]; then 
-        printf "%-20s %s\n" "${WARNING-[WARNING]}" "Link ${LINK} already exists. Skipping ..."
+        message WARNING "Link \"${LINK}\" already exists. Skipping ..."
         return 0
     fi
     
     # main 
-    printf "%-20s %s\n" "${COMMAND-[COMMAND]}" "ln -rs -T \"${DESTINATION}\" \"${LINK}\""
-    ln -rs -T "${DESTINATION}" "${LINK}"
+    RELATIVE_SYMLINK="ln -rs -T \"${DESTINATION}\" \"${LINK}\""
+    message COMMAND "${RELATIVE_SYMLINK}"
+    eval "${RELATIVE_SYMLINK}"
     EXIT_CODE=${?}
     if [ "${EXIT_CODE}" -ne 0 ]; then
+        message ERROR "Unable to create softlink (exit code: ${EXIT_CODE})"
         printf "%-20s %s\n" "${ERROR-[ERROR]}" "Unable to create softlink (exit code: ${EXIT_CODE})"
         return 1
     else
-        printf "%-20s %s\n" "${SUCCESS-[SUCCESS]}" "Created softlink: $(ls -al ${LINK})"
+        message SUCCESS "Created softlink: $(ls -al ${LINK})"
         return 0
     fi
 }
