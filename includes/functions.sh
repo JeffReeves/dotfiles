@@ -25,49 +25,6 @@
 
 #== FUNCTIONS =================================================================
 
-function padding_get_length(){
-    
-    # if no arguments are passed, return 100
-    if [ $# -eq 0 ]; then 
-        return 100
-    fi
-
-    # defaults
-    local TOTAL_PADDING=0
-
-    for PARAMETER in "$@"; do
-        local WORD_LENGTH=$(echo "${1}" | wc -c)
-        local PADDING=$((WORD_LENGTH+2))
-
-        if [ ${PADDING} -gt ${TOTAL_PADDING} ]; then
-            TOTAL_PADDING=${PADDING}
-        fi
-        shift
-    done
-
-    echo "${TOTAL_PADDING}"
-}
-
-
-function pprintf(){
-
-    # if no arguments are passed, return 100
-    if [ $# -eq 0 ]; then 
-        return 100
-    fi
-
-    # get padding
-    local PADDING=$(padding_get_length "$@")
-
-    for PARAMETER in "$@"; do
-        local KEY="${1}"
-        local VALUES="${!1}"
-        printf "%-${PADDING}s %s\n" "[${KEY}]" "${VALUES}"
-        shift
-    done
-}
-
-
 function script_get_filename(){
 
     # default to null value
@@ -425,8 +382,6 @@ function create_softlink(){
 
 #== EXPORTS ===================================================================
 
-export -f padding_get_length
-export -f pprintf
 export -f script_get_filename
 export -f script_get_directory
 export -f prompt_any_key_to_continue
