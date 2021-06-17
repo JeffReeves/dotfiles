@@ -215,7 +215,7 @@ function message(){
         MESSAGE="$@"
     fi
 
-    printf "%-11s %s\n" "${!PREFIX}" "${MESSAGE}"
+    printf "%-11s %s\n" "${PREFIX}" "${MESSAGE}"
 
 }
 
