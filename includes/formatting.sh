@@ -177,11 +177,11 @@ function message(){
                 shift
                 ;;
             'task'|'TASK')
-                PREFIX=$(color 'gray' '[TASK]')
+                PREFIX=$(color 'blue' '[TASK]')
                 shift
                 ;;
             'command'|'COMMAND')
-                PREFIX=$(color 'blue' '[COMMAND]')
+                PREFIX=$(color 'black' '[COMMAND]')
                 shift
                 ;;
             'prompt'|'PROMPT')
