@@ -358,7 +358,6 @@ function create_softlink(){
     EXIT_CODE=${?}
     if [ "${EXIT_CODE}" -ne 0 ]; then
         message ERROR "Unable to create softlink (exit code: ${EXIT_CODE})"
-        printf "%-20s %s\n" "${ERROR-[ERROR]}" "Unable to create softlink (exit code: ${EXIT_CODE})"
         return 1
     else
         message SUCCESS "Created softlink: $(ls -al ${LINK})"
