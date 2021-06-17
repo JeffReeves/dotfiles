@@ -13,6 +13,50 @@
 
 #== FUNCTIONS =================================================================
 
+function padding_get_length(){
+# gets a length to pad words by
+
+    # if no arguments are passed, return 100
+    if [ $# -eq 0 ]; then 
+        return 100
+    fi
+
+    # defaults
+    local TOTAL_PADDING=0
+
+    for PARAMETER in "$@"; do
+        local WORD_LENGTH=$(echo "${1}" | wc -c)
+        local PADDING=$((WORD_LENGTH+2))
+
+        if [ ${PADDING} -gt ${TOTAL_PADDING} ]; then
+            TOTAL_PADDING=${PADDING}
+        fi
+        shift
+    done
+
+    echo "${TOTAL_PADDING}"
+}
+
+function pprintf(){
+# pretty print with padding
+
+    # if no arguments are passed, return 100
+    if [ $# -eq 0 ]; then 
+        return 100
+    fi
+
+    # get padding
+    local PADDING=$(padding_get_length "$@")
+
+    for PARAMETER in "$@"; do
+        local KEY="${1}"
+        local VALUES="${!1}"
+        printf "%-${PADDING}s %s\n" "[${KEY}]" "${VALUES}"
+        shift
+    done
+}
+
+
 function color(){ 
 # colors text
 # args: 
@@ -40,25 +84,25 @@ function color(){
 
     if [[ ! -z "${1}" ]]; then
         case "${1}" in
-            'hidden'|'black')
+            'black')
                 SELECTED_COLOR='COLOR_BLACK'
                 ;;
-            'info'|'task'|'gray')
+            'gray')
                 SELECTED_COLOR='COLOR_GRAY'
                 ;;
-            'prompt'|'blue')
+            'blue')
                 SELECTED_COLOR='COLOR_BLUE'
                 ;;
-            'help'|'cyan')
+            'cyan')
                 SELECTED_COLOR='COLOR_CYAN'
                 ;;
-            'success'|'green')
+            'green')
                 SELECTED_COLOR='COLOR_GREEN'
                 ;;
-            'warning'|'yellow')
+            'yellow')
                 SELECTED_COLOR='COLOR_YELLOW'
                 ;;
-            'error'|'red')
+            'red')
                 SELECTED_COLOR='COLOR_RED'
                 ;;
             *)
@@ -105,30 +149,78 @@ function bold(){
 }
 
 
-#== MACRO VARIABLES ===========================================================
+function message(){
+# outputs a formatted message
+# args: 
+# - prefix: string (optional)
+# - text:   string
+# return: string
 
-DEBUG=$(color 'hidden' '[DEBUG]')
-INFO=$(color 'info' '[INFO]')
-TASK=$(color 'task' '[TASK]')
-COMMAND=$(color 'prompt' '[COMMAND]')
-PROMPT=$(color 'prompt' '[PROMPT]')
-HELP=$(color 'help' '[HELP]')
-SUCCESS=$(color 'success' '[SUCCESS]')
-WARNING=$(color 'warning' '[WARNING]')
-ERROR=$(color 'error' '[ERROR]')
+    # verify arguents were passed
+    if [ $# -eq 0 ]; then
+        return 100
+    fi
 
+    # argument_1: PREFIX
+    local PREFIX=''
+
+    if [[ ! -z "${1}" ]]; then
+        case "${1}" in
+            'debug'|'DEBUG')
+                PREFIX=$(color 'black' '[DEBUG]')
+                shift
+                ;;
+            'info'|'INFO')
+                PREFIX=$(color 'gray' '[INFO]')
+                shift
+                ;;
+            'task'|'TASK')
+                PREFIX=$(color 'gray' '[TASK]')
+                shift
+                ;;
+            'command'|'COMMAND')
+                PREFIX=$(color 'blue' '[COMMAND]')
+                shift
+                ;;
+            'prompt'|'PROMPT')
+                PREFIX=$(color 'blue' '[PROMPT]')
+                shift
+                ;;
+            'help'|'HELP')
+                PREFIX=$(color 'cyan' '[HELP]')
+                shift
+                ;;
+            'success'|'SUCCESS')
+                PREFIX=$(color 'green' '[SUCCESS]')
+                shift
+                ;;
+            'warning'|'WARNING')
+                PREFIX=$(color 'yellow' '[WARNING]')
+                shift
+                ;;
+            'error'|'ERROR')
+                PREFIX=$(color 'red' '[ERROR]')
+                shift
+                ;;
+            *)
+                # skip if not one of the above keywords
+                ;;
+        esac
+    fi
+
+    # argument_2..argument_N: text
+    local MESSAGE=''
+
+    if [[ ! -z "${1}" ]]; then
+        MESSAGE="$@"
+    fi
+
+    printf "%-11s %s\n" "${!PREFIX}" "${MESSAGE}"
+
+}
 
 #== EXPORTS ===================================================================
 
 export -f color
 export -f bold
-
-export DEBUG
-export INFO
-export TASK
-export COMMAND
-export PROMPT
-export HELP
-export SUCCESS
-export WARNING
-export ERROR
+export -f message
