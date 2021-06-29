@@ -72,7 +72,6 @@ message TASK "Create symlinks to dotfiles in home directory ..."
 create_softlink "${CONFIGS}/.gitconfig" "${HOME}/.gitconfig" 
 create_softlink "${CONFIGS}/.tmux.conf" "${HOME}/.tmux.conf"
 create_softlink "${CONFIGS}/.vimrc"     "${HOME}/.vimrc"
-create_softlink "${CONFIGS}/.vim/"      "${HOME}/.vim"
 mkdir -p "${HOME}/.config/Code/User"
 create_softlink "${CONFIGS}/settings.json" "${HOME}/.config/Code/User/settings.json"
 message SUCCESS "Created dotfile symlinks"
@@ -96,15 +95,3 @@ eval "${GIT_CONFIG_AUTHOR}"
 message SUCCESS "Set username, email, and author name for git"
 echo ''
 
-
-# install vim-plug, if it doesn't already exist
-VIM_DIRECTORY="${CONFIGS}/.vim"
-VIM_PLUG_FILE="${VIM_DIRECTORY}/autoload/plug.vim"
-if [ ! -f "${VIM_PLUG_FILE}" ]; then
-    VIM_PLUG_URL='https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
-    CURL_VIM_PLUG="curl -fLo \"${VIM_PLUG_FILE}\" --create-dirs \"${VIM_PLUG_URL}\""
-    message TASK    "Downloading and installing vim-plug for vim ..."
-    message COMMAND "${CURL_VIM_PLUG}"
-    eval "${CURL_VIM_PLUG}"
-fi
-echo ''
